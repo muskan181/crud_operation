@@ -1,0 +1,50 @@
+
+<mat-toolbar color="primary">CRUD operations </mat-toolbar>
+<h1 style ="text-align: center; font-size: 48px; font-weight: bold; margin-top: 100px"> Shopping List</h1>
+<mat-card style=" width: 50%; margin: auto;">
+    
+    <button (click)="post({item:groceryInput.value, quantity: groceryQuan.value})" 
+        mat-fab  
+        color="primary" 
+        style="float: right;"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Grocery item</mat-label>
+        <input #groceryInput matInput placeholder="Ex. rice"/>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Grocery quantity</mat-label>
+        <input  #groceryQuan matInput placeholder="Ex. 2"/>
+    </mat-form-field>
+    <div class="example-list"
+        cdkDropList 
+        (cdkDropListDropped)="onDrop($event)">
+        <mat-list  cdkDrag *ngFor="let grocery of groceries$ | async ;let index = index " style="cursor: move"  >
+            
+            <mat-list-item   [ngStyle]="{'background-color':index%2==0 ? '#315ae0' : '#e9ebf5' }" >
+                <table >
+                    <th style="font-weight: bold;">{{ grocery.id}}. </th>
+                    <th style="font-weight: bold;">{{grocery.item}}</th>
+                    <th style="font-weight: bold;">{{grocery.quantity}}</th>
+                </table>
+                <span style="position: absolute; right: 0;">
+                   
+                    <button mat-icon-button
+                    (click)="update(grocery.id ,groceryInput.value,groceryQuan.value)" [ngStyle]="{'color':index%2==0 ? '#e9ebf5' : '#315ae0' }"
+                      >
+                        <mat-icon >
+                            edit
+                        </mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon (click)="delete(grocery.id)"color="warn">
+                            delete
+                        </mat-icon>
+                    </button>
+                </span>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</mat-card>
